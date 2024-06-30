@@ -228,7 +228,7 @@ def GetSingleImage(hs_num):
     img = b''
     for j in range(HS_PHOTO_HEIGHT):
         for i in range(HS_PHOTO_WIDTH):
-            img += np.float32(getGeneratedPixel(i + 0.5, j + 0.5, hs_num + 1, h_orbit, nadir_vector)).tobytes()
+            img += np.float32(getGeneratedPixel(i + 0.5, j + 0.5, hs_num, h_orbit, nadir_vector)).tobytes()
     return img
 
 def StorageBroadcastImages():
@@ -242,7 +242,7 @@ def GetStoragedImage(hs_num):
     img = b''
     for j in range(HS_PHOTO_HEIGHT):
         for i in range(HS_PHOTO_WIDTH):
-            img += np.float32(photos_storage[hs_num, j, i]).tobytes()
+            img += np.float32(photos_storage[hs_num - 1, j, i]).tobytes()
     return img
 
 #            #

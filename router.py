@@ -36,6 +36,8 @@ def getSensorByByte(addr):
             sensor = 4
         case b'\x05':
             sensor = 5
+        case b'\x06':
+            sensor = 6
         case b'\xFF':
             sensor = 255
     return sensor
