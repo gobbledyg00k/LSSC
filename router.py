@@ -69,7 +69,7 @@ def readPacket():
     crc_in = ins.read(2)
     packet = preambula + dest_addr + src_addr + reserve + command + data_num + ins_data + crc_in
     # print(packet)
-    return command, dest_addr
+    return command, dest_addr, ins_data
 
 def sendMessage(sensor, command, data):
     send_packet = PREAMBULA + DESTINATION_ADDR + sensor + ZERO_BYTE + ZERO_BYTE + \
@@ -85,11 +85,14 @@ if __name__ == "__main__":
     ServerInit()
     print("server init")
     while True:
-        command, sensor = readPacket()
+        command, sensor, in_data = readPacket()
         print("read packet")
         # print(command)
         # print(sensor)
         match command:
+            case b'\x00':               #Прием коэффициента ШИМ для катушек
+                sendPWMOnServer(in_data)
+
             case b'\x0b':               #Получить версию прошивки
                 data = FW_VERSION
                 sendMessage(sensor, command, data)

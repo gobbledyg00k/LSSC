@@ -1,4 +1,5 @@
 from opcua import Client
+import struct
 import math
 
 url = "opc.tcp://Gobbledygook:53530/OPCUA/SimulationServer"
@@ -57,3 +58,31 @@ def getAccelFromServer():
     vector = [0,0,0]
     vector = [1,2,3]
     return vector
+
+def getCoilByByte(addr):
+    match addr:
+        case 1:
+            coil = "ns=3;i=1015"
+        case 2:
+            coil = "ns=3;i=1016"
+        case 3:
+            coil = "ns=3;i=1017"
+        case 4:
+            coil = "ns=3;i=1018"
+        case 5:
+            coil = "ns=3;i=1019"
+        case 6:
+            coil = "ns=3;i=1020"
+        case _:
+            coil = "error"
+    return coil
+
+def sendPWMOnServer(data):
+    for i in range(int(len(data)/5)):
+        tmp = data[i*5:i*5+4]
+        pwm = struct.unpack('<f',tmp)
+        coil = getCoilByByte(data[i*5+4])
+        if(coil != "error"):
+            print(coil)
+            print(pwm[0])
+            serv.get_node(coil).set_value(pwm[0])
