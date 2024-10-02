@@ -92,6 +92,10 @@ def Coordinate_Transformation_CubeSat_to_OM(vect, N):
             x = -x0
             y = y0
             z = z0
+        case 6:
+            x = -x0
+            y = -y0
+            z = -z0
 
     vect[0] = x
     vect[1] = y
@@ -271,10 +275,10 @@ def StorageBroadcastMagData():
     mag_vector = getMagFieldFromServer()
     for i in range (6):
         vec_to_send = copy.deepcopy(mag_vector)
-        GetHsMagData(mag_storage[i], i, vec_to_send)
+        GetHsMagData(mag_storage[i], i+1, vec_to_send)
 
 def GetStoragedMagData(hs_num):
-    return ConvertMagVectorToBytes(mag_storage[hs_num])
+    return ConvertMagVectorToBytes(mag_storage[hs_num-1])
 
 #                #
 # Sun-dir Sensor #
@@ -299,10 +303,10 @@ def StorageBroadcastSunDirectionData():
     sun_vector = getSunDirectionFromServer()
     for i in range (6):
         vec_to_send = copy.deepcopy(sun_vector)
-        GetHSSunDirectionData(sun_storage[i], i, vec_to_send)
+        GetHSSunDirectionData(sun_storage[i], i+1, vec_to_send)
 
 def GetStoragedSunDirectionData(hs_num):
-    return ConvertSunVectorToBytes(sun_storage[hs_num])
+    return ConvertSunVectorToBytes(sun_storage[hs_num - 1])
 
 #                #
 # Ang-vel Sensor #
@@ -327,10 +331,10 @@ def StorageBroadcastAngVelData():
     vel_vector = getAngVelFromServer()
     for i in range (6):
         vec_to_send = copy.deepcopy(vel_vector)
-        GetHsAngVelData(angvel_storage[i], i, vec_to_send)
+        GetHsAngVelData(angvel_storage[i], i+1, vec_to_send)
 
 def GetStoragedAngVelData(hs_num):
-    return ConvertAngVelVectorToBytes(angvel_storage[hs_num])
+    return ConvertAngVelVectorToBytes(angvel_storage[hs_num - 1])
 
 #              #
 # Accel Sensor #
@@ -356,7 +360,7 @@ def StorageBroadcastAccelData():
     accel_vector = getAccelFromServer()
     for i in range (6):
         vec_to_send = copy.deepcopy(accel_vector)
-        GetHsAccelData(accel_storage[i], i, vec_to_send)
+        GetHsAccelData(accel_storage[i], i+1, vec_to_send)
 
 def GetStoragedAccelData(hs_num):
-    return ConvertAccelVectorToBytes(accel_storage[hs_num])
+    return ConvertAccelVectorToBytes(accel_storage[hs_num - 1])

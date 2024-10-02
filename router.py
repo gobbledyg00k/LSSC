@@ -15,7 +15,7 @@ ZERODATANUM = b'\x00\x00'
 FW_VERSION = b'OMv2.00\r\n'
 TEST_DATA = b'\x00\x00\x00\x00\x00\x00\x00\x00'
 
-ins = serial.Serial('COM5')
+ins = serial.Serial('COM4')
 ins.baudrate = 1000000
 ins.bytesize = 8
 ins.parity   = 'N'
@@ -78,7 +78,7 @@ def sendMessage(sensor, command, data):
     send_crc = calculate_crc_16(send_packet).to_bytes(2, "little")
     send_packet = send_packet + send_crc
     ins.write(send_packet)
-    print("give an answer")
+    print("\ngive an answer")
     # print(send_packet)
 
 if __name__ == "__main__":
@@ -86,12 +86,12 @@ if __name__ == "__main__":
     print("server init")
     while True:
         command, sensor, in_data = readPacket()
-        print("read packet")
-        # print(command)
+        print("read packet ", end='')
+        print(command, end='')
         # print(sensor)
         match command:
-            case b'\x00':               #Прием коэффициента ШИМ для катушек
-                sendPWMOnServer(in_data)
+            # case b'\x00':               #Прием коэффициента ШИМ для катушек
+            #     sendPWMOnServer(in_data)
 
             case b'\x0b':               #Получить версию прошивки
                 data = FW_VERSION
